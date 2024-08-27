@@ -1,0 +1,30 @@
+--class-path
+'C:/Users/papth/.m2/repository/org/openjfx/javafx-controls/13/javafx-controls-13.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-graphics/13/javafx-graphics-13.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-base/13/javafx-base-13.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-fxml/13/javafx-fxml-13.jar'
+--module-path
+'C:/Users/papth/.m2/repository/org/openjfx/javafx-fxml/13/javafx-fxml-13-win.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-graphics/13/javafx-graphics-13-win.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-controls/13/javafx-controls-13-win.jar;c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/target/classes;C:/Users/papth/.m2/repository/org/openjfx/javafx-base/13/javafx-base-13-win.jar'
+--patch-module
+com.library='c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/src/main/java;c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/target/generated-sources/annotations'
+-encoding
+'UTF-8'
+-protected
+-source
+'11'
+--module-source-path
+'c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/target/site/apidocs/src'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'weblibrary 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' 'c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'weblibrary 1.0-SNAPSHOT API'
