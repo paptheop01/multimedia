@@ -14,7 +14,7 @@ public class LoanManager {
     /**
      * Returns the observable list of loans.
      *
-     * @return ObservableList<Loan>
+     * @return the observable list of loans
      */
     public ObservableList<Loan> getLoanList() {
         return loanList;

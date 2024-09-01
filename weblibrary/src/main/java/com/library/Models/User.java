@@ -7,13 +7,13 @@ import java.util.UUID;
  * Implements the Serializable interface to allow object serialization.
  */
 public class User implements Serializable{
-    private UUID id;
-    private String surname;
-    private String firstname;
-    private String email;
-    private String password;
-    private String username;
-    private int  ssn;
+    private UUID id; // Represent the unique identifier of the user
+    private String surname; // Represents the surname of the user.
+    private String firstname; // Represents the firstname of the user.
+    private String email; // Represents the email of the user.
+    private String password; // Represents the password of the user.
+    private String username; // Represents the username of the user.
+    private int  ssn; // Represents the snn of the user.
    
 
 /**

@@ -17,6 +17,4 @@ module com.library {
     opens com.library.Models to javafx.base;
     opens com.library.Managers to javafx.base;
     opens com.library.Services to javafx.base;
-
-    
 }

@@ -43,7 +43,7 @@ public class DetailsBook {
     /** 
      * @param book
      * @param categories
-     * @param asAdmin
+     * 
      */
     public void initialize(Book book, ObservableList<String> categories) {
         

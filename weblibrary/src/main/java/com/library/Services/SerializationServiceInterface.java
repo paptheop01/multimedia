@@ -52,7 +52,7 @@ public interface SerializationServiceInterface {
      * @param filePath The file path to save the serialized data.
      * @throws IOException If an I/O error occurs during serialization.
      */
-    void serializeLoans(List<Loan> loops, String filePath) throws IOException;
+    void serializeLoans(List<Loan> loans, String filePath) throws IOException;
      /**
      * Deserializes a list of loans from the specified file path using Java serialization.
      *

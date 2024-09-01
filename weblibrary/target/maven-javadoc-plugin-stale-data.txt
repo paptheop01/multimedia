@@ -1,0 +1,58 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+@argfile
+--class-path
+'C:/Users/papth/.m2/repository/org/openjfx/javafx-controls/13/javafx-controls-13.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-graphics/13/javafx-graphics-13.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-base/13/javafx-base-13.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-fxml/13/javafx-fxml-13.jar'
+--module-path
+'C:/Users/papth/.m2/repository/org/openjfx/javafx-fxml/13/javafx-fxml-13-win.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-graphics/13/javafx-graphics-13-win.jar;C:/Users/papth/.m2/repository/org/openjfx/javafx-controls/13/javafx-controls-13-win.jar;c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/target/classes;C:/Users/papth/.m2/repository/org/openjfx/javafx-base/13/javafx-base-13-win.jar'
+--patch-module
+com.library='c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/src/main/java'
+-encoding
+'UTF-8'
+-protected
+-source
+'11'
+--module-source-path
+'c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/target/reports/apidocs/src'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'weblibrary 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' 'c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'weblibrary 1.0-SNAPSHOT API'
+com.library
+com.library.Controllers
+com.library.Managers
+com.library.Models
+com.library.Services
+'c:/LAB-TOOLS/ECLIPSE/Eclipse-Workspace/multimedia/weblibrary/src/main/java/module-info.java'
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\allclasses-index.html = 1725216867463
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\allpackages-index.html = 1725216867466
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\element-list = 1725216867161
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\help-doc.html = 1725216867506
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\index-all.html = 1725216867498
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\index.html = 1725216867501
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\jquery-ui.overrides.css = 1725216867539
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\member-search-index.js = 1725216867474
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\module-search-index.js = 1725216867468
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\overview-tree.html = 1725216867441
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\package-search-index.js = 1725216867471
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\script.js = 1725216867516
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\search.js = 1725216867518
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\serialized-form.html = 1725216867256
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\stylesheet.css = 1725216867510
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\tag-search-index.js = 1725216867476
+c:\LAB-TOOLS\ECLIPSE\Eclipse-Workspace\multimedia\weblibrary\target\reports\apidocs\type-search-index.js = 1725216867473

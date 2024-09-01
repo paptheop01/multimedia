@@ -13,7 +13,7 @@ public class AdminManager {
     /**
      * Returns the observable list of administrators.
      *
-     * @return ObservableList<Admin>
+     * @return the observable list of administrators
      */
     public ObservableList<Admin> getAdminList() {
         return adminList;

@@ -13,7 +13,7 @@ public class UserManager {
     /**
      * Returns the observable list of users.
      *
-     * @return ObservableList<User>
+     * @return observable list of users
      */
     public ObservableList<User> getUserList() {
         return userList;

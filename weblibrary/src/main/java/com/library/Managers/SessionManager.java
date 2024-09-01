@@ -46,7 +46,7 @@ public class SessionManager {
      /**
      * Returns an ObjectProperty for the currentUser field in order for changes to be observed.
      *
-     * @return ObjectProperty<User>
+     * @return currentUser object property
      */
     public ObjectProperty<User> currentUserProperty() {
         return currentUser;
@@ -54,7 +54,7 @@ public class SessionManager {
      /**
      * Returns an ObjectProperty for the currentAdmin field in order for changes to be observed.
      *
-     * @return ObjectProperty<Admin>
+     * @return currentAdmin object property
      */
     public ObjectProperty<Admin> currentAdminProperty() {
         return currentAdmin;

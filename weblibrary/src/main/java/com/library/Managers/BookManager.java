@@ -14,7 +14,7 @@ public class BookManager {
     /**
      * Returns the observable list of books.
      *
-     * @return ObservableList<Book>
+     * @return the observable list of books
      */
     public ObservableList<Book> getBookList() {
         return bookList;

@@ -176,7 +176,7 @@ public void start(Stage stage) throws IOException {
     
     /** 
      * This method allows the scene to change view.
-     * @param fxml
+     * 
      * @throws IOException
      */
     public static void setRoot(String fxml) throws IOException {
@@ -240,9 +240,8 @@ public void start(Stage stage) throws IOException {
 /**
  * Serializes all the managers into files uppon the close of the app so that no information is lost. Then close the App.
  *
- * @param user The user to be deleted.
+ * 
  */
-
     @Override
     public void stop() {
        
