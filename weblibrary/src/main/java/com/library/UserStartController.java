@@ -60,7 +60,7 @@ public class UserStartController {
 
     public void initialize() {
         // Initialize sample books
-        books=App.getAppState().getBookList();
+        books=App.getAppState().getBookManager().getBookList();
         
 
         
@@ -71,7 +71,7 @@ public class UserStartController {
         }
         
         
-        remainingLoans.setText("Number of remaining loans : "+(2-App.getAppState().getLoanList().filtered(l -> l.getUserUid()==App.getAppState().getCurrentUser().getId()).size()));
+        remainingLoans.setText("Number of remaining loans : "+(2-App.getAppState().getLoanService().getLoansByUserId(App.getAppState().getSessionManager().getCurrentUser().getId()).size()));
         
 
         // Extract unique categories from books
@@ -99,20 +99,8 @@ public class UserStartController {
      */
     @FXML
     private void filterBooks( String title,String author, String date) {
-        ObservableList<Book> filteredBooks =books;
-        System.out.printf(date);
         
-        
-        if(author != ""){
-            filteredBooks=filteredBooks.filtered( b -> b.getAuthor().equals(author));
-        }
-        if(title!= ""){
-            filteredBooks=filteredBooks.filtered( b -> b.getTitle().equals(title));
-        }
-        if(date!= ""){
-            filteredBooks=filteredBooks.filtered( b -> b.getPublicationDate().equals(date));
-        }
-        bookListView.setItems(filteredBooks);
+        bookListView.setItems(App.getAppState().getBookService().searchBook(title,author,date));
     }
 
     
@@ -178,7 +166,7 @@ public class UserStartController {
             borrowButton.setOnAction(event -> {
                 Book itemToBorrow = getItem();
                 if (itemToBorrow != null) {
-                     if(App.getAppState().getLoanList().filtered(l -> l.getUserUid()==App.getAppState().getCurrentUser().getId()).size()==2){
+                     if(App.getAppState().getLoanService().getLoansByUserId(App.getAppState().getSessionManager().getCurrentUser().getId()).size()==2){
                         createAlert("You can't borrow more than 2 books at a time.");
 
                          
@@ -191,10 +179,11 @@ public class UserStartController {
                 
                        
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                        App.getAppState().getLoanList().add(new Loan(App.getAppState().getCurrentUser().getId(), itemToBorrow.getUuid(), futureDate.format(formatter)));
-                        itemToBorrow.setCopyNumber(itemToBorrow.getCopyNumber()-1);
+                        App.getAppState().getLoanService().addLoan(App.getAppState().getSessionManager().getCurrentUser().getId(), itemToBorrow.getUuid(), futureDate.format(formatter));
+                        
+                        App.getAppState().getBookService().updateCopies(itemToBorrow, -1);
                         copiesLabel.setText("Copies: " + itemToBorrow.getCopyNumber());
-                        remainingLoans.setText("Number of remaining loans : "+(2-App.getAppState().getLoanList().filtered(l -> l.getUserUid()==App.getAppState().getCurrentUser().getId()).size()));
+                        remainingLoans.setText("Number of remaining loans : "+(2-App.getAppState().getLoanService().getLoansByUserId(App.getAppState().getSessionManager().getCurrentUser().getId()).size()));
 
                         
                         
@@ -267,7 +256,7 @@ public class UserStartController {
     
                 DetailsBook controller = loader.getController();
                 //controller.setBook(selectedItem,categories,asAdmin);
-                controller.initialize(selectedItem,categories,asAdmin); // Pass the selected item data to the controller
+                controller.initialize(selectedItem,categories); // Pass the selected item data to the controller
                 App.setRoot(root);
                 // Scene scene = new Scene(root);
                 // Stage stage = new Stage();
@@ -308,7 +297,7 @@ public class UserStartController {
 
     @FXML
     private void signout() throws IOException{
-        App.getAppState().setCurrentUser(null);
+        App.getAppState().getSessionManager().setCurrentUser(null);
         App.setRoot("start");
     }
     @FXML
@@ -319,7 +308,7 @@ public class UserStartController {
 
         LoanController controller = loader.getController();
         //controller.setBook(selectedItem,categories,asAdmin);
-        controller.setup(App.getAppState().getCurrentUser(),false); // Pass the selected item data to the controller
+        controller.setup(App.getAppState().getSessionManager().getCurrentUser()); // Pass the selected item data to the controller
         App.setRoot(root);
     }
 

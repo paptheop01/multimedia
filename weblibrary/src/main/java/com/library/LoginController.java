@@ -3,8 +3,7 @@ package com.library;
 
 import java.io.IOException;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 
 import javafx.fxml.FXML;
 
@@ -16,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 
 public class LoginController {
-    private static ObservableList<User> userList ;
+   
 
     @FXML 
     private Button loginButton;
@@ -50,13 +49,13 @@ public class LoginController {
 public void initData(boolean asAdmin){
     title.setText(asAdmin? "Admin Login" : "User Login");
     if(asAdmin){
-        userList= FXCollections.observableArrayList(App.getAppState().getAdminList());
+       
         loginButton.setOnAction(event ->{
             checkandLogin(usernameField.getText(), passwordField.getText(),asAdmin);
         });    
     }
     else{
-        userList=App.getAppState().getItemList();
+        
         loginButton.setOnAction(event ->{
             checkandLogin(usernameField.getText(), passwordField.getText(),asAdmin);
         });  
@@ -74,40 +73,12 @@ public void initData(boolean asAdmin){
          */
         @FXML
         private void checkandLogin(String username, String password, boolean asAdmin){
-            for (User user : userList){
-                if(user.getUsername().equals(username) && user.getPassword().equals(password)){
-                    if(asAdmin){
-                        App.getAppState().setCurrentAdmin((Admin) user);
-                        try{
-                            App.setRoot("primary");
-                        }
-                        catch(IOException e){
-                            e.printStackTrace();
-                            
-                        }
-                    }
-                    else{
-                        App.getAppState().setCurrentUser(user);
-                        try{
-                            App.setRoot("userstart");
-                        }
-                        catch(IOException e){
-                            e.printStackTrace();
-                            
-                        }
-
-                    }
-                    return;
-                }
-                else if(user.getUsername().equals(username) && !user.getPassword().equals(password)){
-                    createAlert("Wrong password");
-                    return;
-
-                }
-
+            if(asAdmin){
+            App.getAppState().getSessionLoginCheckService().checkandLoginAdmin(username, password);
             }
-            createAlert("User not found");
-            return;
+            else{
+                App.getAppState().getSessionLoginCheckService().checkandLoginUser(username, password);
+            }
         }
 
 

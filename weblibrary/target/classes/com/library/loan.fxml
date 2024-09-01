@@ -13,7 +13,7 @@
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.library.LoanController">
     <children>
         <Label text="Loan View" />
-<TextField fx:id="userNameField" promptText="Search loan by username"/> <Button fx:id="filterButton" text="search" onAction="#filter"/>
+
 
         <!-- Wrap the ListView inside a ScrollPane for scrolling -->
  <ListView fx:id="loanListView" prefWidth="200">

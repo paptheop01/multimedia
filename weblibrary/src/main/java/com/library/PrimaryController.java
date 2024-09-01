@@ -33,13 +33,13 @@ public class PrimaryController  {
      */
     @FXML
     private void switchToLoan() throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("loan.fxml"));
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("loanadmin.fxml"));
                 Parent root = loader.load();
                 
     
-                LoanController controller = loader.getController();
+                LoanControllerAdmin controller = loader.getController();
                 //controller.setBook(selectedItem,categories,asAdmin);
-                controller.setup(null,true); // Pass the selected item data to the controller
+                controller.setup(null); // Pass the selected item data to the controller
                 App.setRoot(root);
         
     }
@@ -51,7 +51,7 @@ public class PrimaryController  {
 
     @FXML 
     private void logout(ActionEvent event) throws IOException {
-        App.getAppState().setCurrentAdmin(null);
+        App.getAppState().getSessionManager().setCurrentAdmin(null);
         App.setRoot("start");
     }
 

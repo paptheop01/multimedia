@@ -1,11 +1,6 @@
 package com.library;
 import java.io.IOException;
-import java.util.Comparator;
 
-import java.util.stream.Collectors;
-
-
-import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,8 +23,8 @@ public class StartController {
         loginAdButton.setOnAction(event -> {login(true);});
         loginButton.setOnAction(event -> {login(false);});
         // Initialize the ListView with data from AppState's itemList
-        ObservableList<Book> itemList = App.getAppState().getBookList();
-        itemListView.setItems(itemList.filtered( book -> itemList.stream().sorted(Comparator.comparing(Book :: getrating).reversed()).limit(5).collect(Collectors.toList()).contains(book) ));
+        
+        itemListView.setItems(App.getAppState().getBookService().getTopBooks(5) );
         itemListView.setCellFactory(param -> new CustomListCell());
     }
      private static class CustomListCell extends ListCell<Book> {
@@ -65,11 +60,11 @@ public class StartController {
     @FXML
     private  void signUp() {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("detailsuser.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("signup.fxml"));
             Parent root = loader.load();
 
-            DetailsUserController controller = loader.getController();
-            controller.initData(null); // Pass the selected item data to the controller
+            SignupController controller = loader.getController();
+            controller.initData(null,App.getAppState().getUserService()); // Pass the selected item data to the controller
             App.setRoot(root);
             // Scene scene = new Scene(root);
             // Stage stage = new Stage();

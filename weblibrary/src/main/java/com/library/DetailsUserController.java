@@ -2,7 +2,7 @@ package com.library;
 
 import java.io.IOException;
 
-import javafx.collections.ObservableList;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -33,12 +33,15 @@ public class DetailsUserController {
 
     private User currentItem; // Store the current item being edited
 
+    private UserService userService;
+
     
     /** 
      * @param item
      */
     // Method to initialize data in the details view
-    public void initData(User item) {
+    public void initData(User item, UserService userService) {
+        this.userService = userService;
         currentItem = item;
         if (currentItem != null){
             title.setText("Edit User");
@@ -53,19 +56,7 @@ public class DetailsUserController {
             returnBackButton.setText("Return Back");
             returnBackButton.setOnAction(event -> {switchBackAdmin();} );
         }
-        else{
-            title.setText("Sign Up Page");
-            username.setPromptText("username");
-            password.setPromptText("password"); 
-            email.setPromptText("email");
-            ssnField.setPromptText("Ssn");
-            surname.setPromptText("Surname");
-            firstname.setPromptText("First Name");
-            saveChangesButton.setText("Sign Up");
-            
-            returnBackButton.setText("Cancel");
-            returnBackButton.setOnAction(event -> {switchBackUser();} );
-        }
+       
     }
 
     // Method to handle saving changes
@@ -73,59 +64,24 @@ public class DetailsUserController {
     private void saveChanges() {
 
         if(validateFields()) {
-            ObservableList<User> itemList = App.getAppState().getItemList();
+            
             
             
             if(currentItem != null) {
 
-                String editedItem = username.getText();
-                    // Update the username
-                currentItem.setusername(editedItem);
-                editedItem = password.getText();
-                currentItem.setpassword(editedItem);
-                editedItem = email.getText();
-                currentItem.setemail(editedItem);
-                editedItem = ssnField.getText();
-                currentItem.setssn(Integer.parseInt(editedItem));
-                editedItem=surname.getText();
-                currentItem.setsurname(editedItem);
-                editedItem=firstname.getText();
-                currentItem.setfirstname(editedItem);
+
+                
+                userService.updateUser(currentItem,surname.getText(), firstname.getText() , email.getText(), password.getText(), username.getText(), Integer.parseInt(ssnField.getText()) );
                 // Update the item directly in AppState's itemList
                 
-                int index = itemList.indexOf(currentItem);
-                if (index != -1) {
-                    itemList.set(index, currentItem); // Update the item at the specific index
-                }
+                
 
             }
-            else{
-                if(itemList.stream().filter(u -> u.getEmail().equals(email.getText())).findFirst().isPresent()){
-                    createAlert("Error, email already exists");
-                }
-                else if(itemList.stream().filter(u -> u.getUsername().equals(username.getText())).findFirst().isPresent()){
-                    createAlert("Error, username already exists");
-                }
-                else{
-                // Create a new user
-                    User newUser = new User(
-                        surname.getText(),
-                        firstname.getText(),
-                        email.getText(),
-                        password.getText(),
-                        username.getText(),
-                        Integer.parseInt(ssnField.getText())
-                    );
-                    App.getAppState().addItemToList(newUser);
-                    
-                    switchtoUser();
-                }
-
-            }
+            
                 
         }
         else{
-            createAlert("All fields are mandatory!");
+            createAlert("All fields are mandatory and ssn should be integer!");
         }
         // Close the details page or perform other actions as needed
     }
@@ -151,6 +107,7 @@ public class DetailsUserController {
             email.getText().isEmpty() ||
             ssnField.getText().isEmpty() ||
             firstname.getText().isEmpty() ||
+            !ssnField.getText().matches("\\d*") ||
             surname.getText().isEmpty()) {
             return false;
         }
@@ -169,26 +126,5 @@ public class DetailsUserController {
         
     }
 
-    @FXML 
-    private void switchBackUser()  {
-        try{
-            App.setRoot("start");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-            
-        }
-        
-    }
-
-    @FXML 
-    private void switchtoUser()  {
-        try{
-            App.setRoot("userstart");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-            
-        }
-    }
+   
 }

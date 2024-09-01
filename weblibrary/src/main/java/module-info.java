@@ -1,5 +1,5 @@
 module com.library {
-    requires javafx.controls;
+    requires transitive javafx.controls;
     requires transitive javafx.graphics;
     requires javafx.fxml;
     requires javafx.base;

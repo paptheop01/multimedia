@@ -18,14 +18,16 @@ import javafx.scene.layout.HBox;
 public class SecondaryController  {
     
     
+    
     @FXML
     private ListView<User> itemListView;
 
     // Initialize method called after FXML loading
     @FXML
     private void initialize() {
+        
         // Initialize the ListView with data from AppState's itemList
-        ObservableList<User> itemList = App.getAppState().getItemList();
+        ObservableList<User> itemList = App.getAppState().getUserManager().getUserList();
         itemListView.setItems(itemList);
         itemListView.setCellFactory(param -> new CustomListCell());
     }
@@ -42,18 +44,7 @@ public class SecondaryController  {
             removeButton.setOnAction(event -> {
                 User itemToRemove = getItem();
                 if (itemToRemove != null) {
-                    App.getAppState().removeItemFromList(itemToRemove);
-                    getListView().getItems().remove(itemToRemove);
-                   
-                    for (Loan l : App.getAppState().getLoanList()){
-                        for( Book b :  App.getAppState().getBookList()){
-                            if(b.getUuid().equals(l.getBookUid()) && l.getUserUid().equals(itemToRemove.getId())){
-                                b.setCopyNumber(b.getCopyNumber()+1);
-                                break;
-                            }
-                        }
-                    }
-                    App.getAppState().getLoanList().removeIf(loan -> loan.getUserUid().equals(itemToRemove.getId()));
+                    App.getAppState().getUserDeletionService().deleteUser(itemToRemove);
                 }
             });
 
@@ -84,25 +75,11 @@ public class SecondaryController  {
     }
    
     
-    /** 
-     * @return ObservableList<User>
-     */
-    @FXML
-    public ObservableList<User> getItemList() {
-        return App.getAppState().getItemList();
-    }
-    
+  
     /** 
      * @param item
      */
-    @FXML
-    public void addItemToList(User item) {
-        App.getAppState().addItemToList(item);
-    }
-    @FXML
-    public void removeItemFromList(User item) {
-        App.getAppState().removeItemFromList(item);
-    }
+  
     @FXML
     private void switchToPrimary() throws IOException {
         App.setRoot("primary");
@@ -114,7 +91,7 @@ public class SecondaryController  {
             Parent root = loader.load();
 
             DetailsUserController controller = loader.getController();
-            controller.initData(selectedItem); // Pass the selected item data to the controller
+            controller.initData(selectedItem, App.getAppState().getUserService()); // Pass the selected item data to the controller
             App.setRoot(root);
             // Scene scene = new Scene(root);
             // Stage stage = new Stage();

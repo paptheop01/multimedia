@@ -28,19 +28,24 @@ public class App extends Application {
 @Override
 public void start(Stage stage) throws IOException {
     appState = AppState.getInstance();
+    UserManager userManager = appState.getUserManager();
+    AdminManager adminManager = appState.getAdminManager();
+    BookManager bookManager = appState.getBookManager();
+    LoanManager loanManager = appState.getLoanManager();
+    
     Admin admin1 = new Admin("John", "Doe", "john.doe@medialab.com", "medialab_2024", "medialab", 123456789);
-    appState.addItemToList(admin1);
+    adminManager.addAdmin(admin1);
     User user1 = new User("Smith", "John", "john.smith@example.com", "password1", "johnny123", 123456789);
     User user2 = new User("Doe", "Jane", "jane.doe@example.com", "password2", "janeDoe", 987654321);
     User user3 = new User("Brown", "Michael", "michael.brown@example.com", "password3", "mikeB", 112233445);
     User user4 = new User("Taylor", "Emily", "emily.taylor@example.com", "password4", "emilyT", 998877665);
     User user5 = new User("Johnson", "Chris", "chris.johnson@example.com", "password5", "chrisJ", 556677889);
 
-    appState.addItemToList(user1);
-    appState.addItemToList(user2);
-    appState.addItemToList(user3);
-    appState.addItemToList(user4);
-    appState.addItemToList(user5);
+    userManager.addUser(user1);
+    userManager.addUser(user2);
+    userManager.addUser(user3);
+    userManager.addUser(user4);
+    userManager.addUser(user5);
 
     // Create 10 books
     Book book1 = new Book("Java Programming", "John Doe", "TechBooks Inc.", "978-0321349606", "2022-01-01", "Programming");
@@ -59,35 +64,34 @@ public void start(Stage stage) throws IOException {
     book1.addUserComment(user2.getId(), "Needs more practical examples.");
     book1.setrating(4.5);
     book1.setNumberOfUsers(book1.getNumberOfUsers() + 1);
-    book1.setCopyNumber(book1.getCopyNumber()-1);
-
+    
     book3.addUserComment(user3.getId(), "A classic novel.");
     book3.setrating(5.0);
     book3.setNumberOfUsers(book3.getNumberOfUsers() + 1);
-    book3.setCopyNumber(book3.getCopyNumber()-1);
+    
 
     book7.addUserComment(user4.getId(), "Must-read for every programmer.");
     book7.setrating(4.8);
     book7.setNumberOfUsers(book7.getNumberOfUsers() + 1);
-    book7.setCopyNumber(book7.getCopyNumber()-1);
+    
 
     book8.addUserComment(user5.getId(), "Interesting read.");
     book8.setrating(4.0);
     book8.setNumberOfUsers(book8.getNumberOfUsers() + 1);
-    book8.setCopyNumber(book8.getCopyNumber()-1);
+    
     book6.setrating(3.4);
     book2.setrating(1.6);
     // Add books to appState
-    appState.addItemToList(book1);
-    appState.addItemToList(book2);
-    appState.addItemToList(book3);
-    appState.addItemToList(book4);
-    appState.addItemToList(book5);
-    appState.addItemToList(book6);
-    appState.addItemToList(book7);
-    appState.addItemToList(book8);
-    appState.addItemToList(book9);
-    appState.addItemToList(book10);
+    bookManager.addBook(book1);
+    bookManager.addBook(book2);
+    bookManager.addBook(book3);
+    bookManager.addBook(book4);
+    bookManager.addBook(book5);
+    bookManager.addBook(book6);
+    bookManager.addBook(book7);
+    bookManager.addBook(book8);
+    bookManager.addBook(book9);
+    bookManager.addBook(book10);
 
     // Create 4 loans (max 2 loans per user) with end dates from September to October this year
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -96,19 +100,19 @@ public void start(Stage stage) throws IOException {
     Loan loan2 = new Loan(user1.getId(), book2.getUuid(), LocalDate.of(2024, 9, 25).format(formatter));
     Loan loan3 = new Loan(user2.getId(), book3.getUuid(), LocalDate.of(2024, 10, 5).format(formatter));
     Loan loan4 = new Loan(user3.getId(), book4.getUuid(), LocalDate.of(2024, 10, 15).format(formatter));
+    book1.setCopyNumber(book1.getCopyNumber()-1);
+    book2.setCopyNumber(book2.getCopyNumber()-1);
+    book3.setCopyNumber(book3.getCopyNumber()-1);
+    book4.setCopyNumber(book4.getCopyNumber()-1);
+
 
     // Add loans to appState
-    appState.addItemToList(loan1);
-    appState.addItemToList(loan2);
-    appState.addItemToList(loan3);
-    appState.addItemToList(loan4);
+    loanManager.addLoan(loan1);
+    loanManager.addLoan(loan2);
+    loanManager.addLoan(loan3);
+    loanManager.addLoan(loan4);
 
-    // Optionally, display details
-    book1.displayBookDetails();
-    book3.displayBookDetails();
-    book7.displayBookDetails();
-    book8.displayBookDetails();
-
+    
 
 
     scene = new Scene(loadFXML("start"), 640, 480);

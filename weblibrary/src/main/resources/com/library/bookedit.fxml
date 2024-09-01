@@ -29,7 +29,7 @@
         <Label text="Category:" />
         <ComboBox fx:id="categoryComboBox" prefWidth="200" promptText="Select or type a category"/>
 
-        <Button fx:id="saveChangesButton" text="Save Changes" onAction="#saveChanges" />
+       
         <Label fx:id="messageLabel" />
         <Button text="Return Back" onAction="#switchBack" />
     </children>

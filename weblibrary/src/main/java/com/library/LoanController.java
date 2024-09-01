@@ -25,69 +25,44 @@ import javafx.scene.layout.HBox;
 public class LoanController {
 
     private ObservableList<Loan> loans = FXCollections.observableArrayList();
-    private  ObservableList<Book> books = FXCollections.observableArrayList();
-    private  ObservableList<User> users = FXCollections.observableArrayList();
+    
     
 
   
 
     private static class CustomListCell extends ListCell<Loan> {
         private final Button button = new Button();
-        private final Label userLabel = new Label();
+       
         private final Label bookLabel = new Label();
         private final Label dateLabel = new Label();
         private final Label startLabel = new Label();
         private final Label state = new Label();
         private final HBox hbox = new HBox();
-        private ObservableList<Book> books;
-        private ObservableList<User> users;
-        private boolean asAdmin;
+       
         
 
-        public CustomListCell(ObservableList<Book> books, ObservableList<User> users, boolean asAdmin) {
-            this.books = books;
-            this.users = users;
-            this.asAdmin = asAdmin;
-            if(asAdmin){
-                button.setText("Terminate");
-                button.setStyle("-fx-background-color: blue;");
-                button.setOnAction(event -> {
-                    Loan itemToRemove = getItem();
-                    if (itemToRemove != null) {
-                        App.getAppState().removeItemFromList(itemToRemove);
-                        getListView().getItems().remove(itemToRemove);
-                        for( Book b : books){
-                            if(b.getUuid().equals(itemToRemove.getBookUid())){
-                                b.setCopyNumber(b.getCopyNumber()+1);
-                                break;
-                            }
-                        }
-
-                    }
-                });
-            }
-            else{
+        public CustomListCell() {
+            
+            
+            
                 button.setText("Rate and Comment book");
                 button.setStyle("-fx-background-color: blue;");
                 button.setOnAction(event -> {
                     Loan itemToRate = getItem();
                     if (itemToRate != null) {
                         
-                        for( Book b : books){
-                            if(b.getUuid().equals(itemToRate.getBookUid())){
-                                openRateComment(b);
-                                break;
-                            }
-                        }
+                        
+                        openRateComment(App.getAppState().getBookService().getBookByBookId(itemToRate.getBookUid()));
+                               
 
                     }
                 });
 
-            }
+            
 
           
 
-            hbox.getChildren().addAll(userLabel,bookLabel,startLabel,dateLabel,state,button);
+            hbox.getChildren().addAll(bookLabel,startLabel,dateLabel,state,button);
             hbox.setSpacing(10);
         }
 
@@ -99,21 +74,20 @@ public class LoanController {
                 setGraphic(null);
             } else {
                 
-                userLabel.setVisible(asAdmin);
+                
                 
                 setGraphic(hbox);
-                for( User u : users){
-                    if(u.getId().equals(item.getUserUid())){
-                        userLabel.setText(u.getUsername());
-                        break;
-                    }
-                }
-                for( Book b : books){
-                    if(b.getUuid().equals(item.getBookUid())){
-                        bookLabel.setText(b.getTitle());
-                        break;
-                    }
-                }
+                
+                   
+                
+                    
+                    
+                
+                
+                bookLabel.setText(App.getAppState().getBookService().getBookByBookId(item.getBookUid()).getTitle());
+                    
+                    
+                
 
                 dateLabel.setText("End date: "+(item.getLoanEndDate()));
                 startLabel.setText("Start date: "+((LocalDate.parse(item.getLoanEndDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")).minusDays(5))));
@@ -152,40 +126,16 @@ public class LoanController {
     }
 
     
-    /** 
-     * @param username
-     */
-    private void filterLoans(String username) {
-        ObservableList<Loan> filteredLoans = FXCollections.observableArrayList();
-        for (Loan loan : loans) {
-            if (loan.getUserUid().equals(users.stream().filter(user -> user.getUsername().equals(username)).findFirst().map(User::getId).orElse(null))) {
-                filteredLoans.add(loan);
-            }
-        }
-        if(filteredLoans.isEmpty()){
-            filteredLoans = loans;
-        }
-        loanListView.setItems(filteredLoans);
-    }
+    
 
-    @FXML
-    private void filter() {
-        String username = userNameField.getText().trim();
-        if (username!="") {
-            filterLoans(username);
-        } else {
-            loanListView.setItems(loans);
-        }
-    }
+    
 
     @FXML
     private ListView<Loan> loanListView;
 
-    @FXML
-    private TextField userNameField;
+  
 
-    @FXML
-    private Button filterButton;
+    
     @FXML
     private Button returnButton;
 
@@ -193,9 +143,8 @@ public class LoanController {
     @FXML
     public void initialize() {
         // Initialize the ListView with data from AppState's itemList
-        loans = App.getAppState().getLoanList();
-        users = App.getAppState().getItemList();
-        books = App.getAppState().getBookList();
+        loans = App.getAppState().getLoanManager().getLoanList();
+        
         
     }
 
@@ -205,20 +154,15 @@ public class LoanController {
      * @param asAdmin
      */
     @FXML
-    public void setup(User user,boolean asAdmin){
-        returnButton.setOnAction(event ->{switchToPrimary(asAdmin);});
-        if(asAdmin){
-            loanListView.setItems(loans);
-            loanListView.setCellFactory(param -> new CustomListCell(books,users,asAdmin));
+    public void setup(User user){
+        returnButton.setOnAction(event ->{switchToPrimary();});
+        
+        if(user !=null){
+            
+            loanListView.setItems(App.getAppState().getLoanService().getLoansByUserId(user.getId()));
+            loanListView.setCellFactory(param -> new CustomListCell());
         }
-        else{
-            if(user !=null){
-                filterButton.setVisible(false);
-                userNameField.setVisible(false);
-                loanListView.setItems(loans.filtered(l -> l.getUserUid().equals(user.getId())));
-                loanListView.setCellFactory(param -> new CustomListCell(books,users,asAdmin));
-            }
-        }
+        
 
     }
 
@@ -227,14 +171,12 @@ public class LoanController {
     
 
     @FXML
-    private void switchToPrimary(boolean asAdmin)  {
+    private void switchToPrimary()  {
         try{
-          if(asAdmin){
-                App.setRoot("primary");
-            }
-            else{
+          
+            
                 App.setRoot("userstart");
-            }
+            
         }
         catch(IOException e){
             e.printStackTrace();

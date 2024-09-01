@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 
 public class CommentsBook {
     private ObservableList<Comment> comments;
-    private ObservableList<User> users;
+    
     @FXML
     private ListView<Comment> commentListView;
     @FXML
@@ -27,7 +27,7 @@ public class CommentsBook {
      * @param book
      */
     public void initialize(Book book) {
-        users= App.getAppState().getItemList();
+        
         // book.displayBookDetails();
         comments=FXCollections.observableArrayList(book.getUserComment());
         
@@ -35,7 +35,7 @@ public class CommentsBook {
         if(!comments.isEmpty()){
         commentLabel.setVisible(false);
         commentListView.setItems(comments);
-        commentListView.setCellFactory(param -> new CustomCommentCell( users));
+        commentListView.setCellFactory(param -> new CustomCommentCell());
         commentListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         System.out.println("some");
         }
@@ -50,16 +50,15 @@ public class CommentsBook {
     private static class CustomCommentCell extends ListCell<Comment> {
         private final Label username;
         private final TextField textField;
-        private ObservableList<User> users;
-
+        
        
         private final VBox vbox = new VBox();
         
        
 
-        public CustomCommentCell(ObservableList<User> users) {
+        public CustomCommentCell() {
             
-            this.users = users;
+            
             username = new Label();
             textField = new TextField();
             vbox.getChildren().addAll(username, textField);
@@ -74,13 +73,12 @@ public class CommentsBook {
             if (empty || item == null) {
                 setGraphic(null);
             } else {
+                User u= App.getAppState().getUserService().getUserById(item.getUserid());
                 
-                for( User u : users){
-                    if(u.getId().equals(item.getUserid())){
-                        username.setText(u.getUsername());
-                        break;
-                    }
-                }
+                  username.setText((u!=null) ? u.getUsername() : "Deleted User") ;
+                        
+                    
+                
                 textField.setText(item.getCommentText());
                 setGraphic(vbox);
                 

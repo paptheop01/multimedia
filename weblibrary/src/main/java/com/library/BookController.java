@@ -46,17 +46,13 @@ public class BookController {
  */
 public void initialize() {
         // Initialize sample books
-        books=App.getAppState().getBookList();
+        this.books=App.getAppState().getBookManager().getBookList();
 
 
 
         // Extract unique categories from books
-
-        for (Book book : books) {
-            if (!categories.contains(book.getCategory())) {
-                categories.add(book.getCategory());
-            }
-        }
+        this.categories=App.getAppState().getBookService().updateCategories();
+        
 
         categoryComboBox.setItems(categories);
         categoryComboBox.setPromptText("Select a category");
@@ -84,23 +80,15 @@ public void initialize() {
      * @param category
      */
     private void filterBooks(String category) {
-        ObservableList<Book> filteredBooks = FXCollections.observableArrayList();
-        for (Book book : books) {
-            if (book.getCategory().equals(category)) {
-                filteredBooks.add(book);
-            }
-        }
+        ObservableList<Book> filteredBooks = App.getAppState().getBookService().searchBookByCategory(category);
+        
         bookListView.setItems(filteredBooks);
     }
 
     private void updateCategories() {
         String selectedCategory = categoryComboBox.getValue();
-        categories.clear();
-        for (Book book : books) {
-            if (!categories.contains(book.getCategory())) {
-                categories.add(book.getCategory());
-            }
-        }
+        categories=App.getAppState().getBookService().updateCategories();
+        
         categoryComboBox.setItems(categories);
         if(categories.contains(selectedCategory)) {
             categoryComboBox.setValue(selectedCategory);
@@ -124,7 +112,7 @@ public void initialize() {
     private void removeCategory() {
         String selectedCategory = categoryComboBox.getValue();
         if (selectedCategory != null && !selectedCategory.isEmpty()) {
-            books.removeIf(book -> book.getCategory().equals(selectedCategory));
+            App.getAppState().getDeleteLoanService().deleteBooksandLoansByCategory(selectedCategory);
             categories.remove(selectedCategory);
             updateCategories();
             categoryComboBox.setValue(null);
@@ -141,11 +129,8 @@ public void initialize() {
         System.out.println(selectedCategory);
 
         if (selectedCategory != null && !selectedCategory.isEmpty() && !newCategory.isEmpty()) {
-            for (Book book : books) {
-                if (book.getCategory().equals(selectedCategory)) {
-                    book.setCategory(newCategory);
-                }
-            }
+                App.getAppState().getBookService().replaceCategory(selectedCategory, newCategory);
+            
             updateCategories();
             filterBooks(newCategory);
             newCategoryTextField.clear();
@@ -190,10 +175,7 @@ public void initialize() {
             removeButton.setOnAction(event -> {
                 Book itemToRemove = getItem();
                 if (itemToRemove != null) {
-                    
-                    App.getAppState().removeItemFromList(itemToRemove);
-                    getListView().getItems().remove(itemToRemove);
-                    App.getAppState().getLoanList().removeIf(loan -> loan.getBookUid().equals(itemToRemove.getUuid()));
+                    App.getAppState().getDeleteLoanService().deleteBookAndLoan(itemToRemove);
                     updateCategoryList(itemToRemove.getCategory());
                 }
             });
@@ -256,12 +238,12 @@ public void initialize() {
 
         private static void openBookView(Book selectedItem, ObservableList<String> categories,boolean asAdmin) {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("bookedit.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("bookeditadmin.fxml"));
             Parent root = loader.load();
 
-            DetailsBook controller = loader.getController();
+            DetailsBookAdmin controller = loader.getController();
             //controller.setBook(selectedItem,categories,asAdmin);
-            controller.initialize(selectedItem,categories,asAdmin); // Pass the selected item data to the controller
+            controller.initialize(selectedItem,categories); // Pass the selected item data to the controller
             App.setRoot(root);
             // Scene scene = new Scene(root);
             // Stage stage = new Stage();

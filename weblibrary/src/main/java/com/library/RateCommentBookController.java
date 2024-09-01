@@ -52,16 +52,14 @@ public class RateCommentBookController {
     @FXML
     private void rate(){
         double rating =  ratingComboBox.getValue();
-        double newrating= (book.getrating()*book.getNumberOfUsers()+rating)/(book.getNumberOfUsers()+1);
-        book.setNumberOfUsers(book.getNumberOfUsers()+1);
-        book.setrating(newrating);
+        App.getAppState().getBookService().rate(book, rating);
         createAlert("Your rating has been submitted");
     }
 
     @FXML 
     private void leavecomment() {
         String comment = commentTextfield.getText();
-        book.addUserComment(App.getAppState().getCurrentUser().getId(), comment);
+        book.addUserComment(App.getAppState().getSessionManager().getCurrentUser().getId(), comment);
         createAlert("Your comment has been submitted");
         
     }
@@ -77,7 +75,7 @@ public class RateCommentBookController {
 
         LoanController controller = loader.getController();
         //controller.setBook(selectedItem,categories,asAdmin);
-        controller.setup(App.getAppState().getCurrentUser(),false); // Pass the selected item data to the controller
+        controller.setup(App.getAppState().getSessionManager().getCurrentUser()); // Pass the selected item data to the controller
         App.setRoot(root);
         
 
