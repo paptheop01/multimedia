@@ -1,0 +1,6 @@
+module:com.library
+com.library
+com.library.Controllers
+com.library.Managers
+com.library.Models
+com.library.Services
